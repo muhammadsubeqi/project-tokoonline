@@ -10,6 +10,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardProductController;
 use App\Http\Controllers\DashboardTransactionController;
 use App\Http\Controllers\DashboardSettingController;
+use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,16 @@ Route::get('/dashboard-transaction-details/{id}', [DashboardTransactionControlle
 
 Route::get('/dashboard-settings', [DashboardSettingController::class, 'store'])->name('dashboard-settings');
 Route::get('/dashboard-account', [DashboardSettingController::class, 'account'])->name('dashboard-account');
+
+// ->middleware(['auth', 'admin'])
+//Admin
+Route::prefix('admin')
+->namespace('Admin')
+->group(function(){
+    Route::get('/', [DashboardAdminController::class, 'index'])->name('admin-dashboard');
+    Route::get('category', [AdminCategoryController::class, 'index'])->name('admin-category');
+});
+
 
 Auth::routes();
 

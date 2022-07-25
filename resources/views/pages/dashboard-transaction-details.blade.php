@@ -47,7 +47,7 @@ data-aos="fade-up"
                     <div class="product-subtitle">22 Juli 2022</div>
                     </div>
                     <div class="col-12 col-md-6">
-                    <div class="product-title">Status</div>
+                    <div class="product-title">Payment Status</div>
                     <div class="product-subtitle text-danger">
                         pending
                     </div>
@@ -98,14 +98,13 @@ data-aos="fade-up"
                     <div class="product-subtitle">Indonesia</div>
                     </div>
                     <div class="col-12 col-md-3">
-                    <div class="product-title">Status</div>
+                    <div class="product-title">Shipping Status</div>
                     <select
                         name="status"
                         id="status"
                         class="form-control"
                         v-model="status"
                     >
-                        <option value="UNPAID">UNPAID</option>
                         <option value="PENDING">PENDING</option>
                         <option value="SHIPPING">SHIPPING</option>
                         <option value="SUCCESS">SUKSES</option>
