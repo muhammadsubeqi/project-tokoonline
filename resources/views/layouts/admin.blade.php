@@ -33,14 +33,19 @@
               >Dashboard</a
             >
             <a
-              href="{{route('admin-category')}}"
+              href="{{route('category.index')}}"
               class="list-group-item list-group-item-action {{ (request()->is('admin/category*')) ? 'active' : ''}}"
               >Categories</a
             >
             <a
-              href="/dashboard-transaction"
-              class="list-group-item list-group-item-action"
+              href="{{ route('product.index')}}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/product')) ? 'active' : ''}}"
               >Products</a
+            >
+            <a
+              href="{{ route('product-gallery.index')}}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/product-gallery*')) ? 'active' : ''}}"
+              >Galleries</a
             >
             <a
               href="/dashboard-settings"
@@ -48,8 +53,8 @@
               >Transactions</a
             >
             <a
-              href="/dashboard-settings"
-              class="list-group-item list-group-item-action"
+              href="{{ route('user.index')}}"
+              class="list-group-item list-group-item-action {{ (request()->is('admin/user*')) ? 'active' : ''}}"
               >Users</a
             >
             <a href="/index" class="list-group-item list-group-item-action"

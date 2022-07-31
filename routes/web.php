@@ -11,7 +11,6 @@ use App\Http\Controllers\DashboardProductController;
 use App\Http\Controllers\DashboardTransactionController;
 use App\Http\Controllers\DashboardSettingController;
 use App\Http\Controllers\Admin\DashboardAdminController;
-use App\Http\Controllers\Admin\AdminCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +25,7 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+Route::get('/categories/{id}', [CategoryController::class, 'detail'])->name('categories-detail');
 Route::get('/detail/{id}', [DetailController::class, 'index'])->name('detail');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/success', [CartController::class, 'success'])->name('success');
@@ -46,12 +46,19 @@ Route::get('/dashboard-account', [DashboardSettingController::class, 'account'])
 
 // ->middleware(['auth', 'admin'])
 //Admin
-Route::prefix('admin')
+Route::prefix('admin') 
 ->namespace('Admin')
 ->group(function(){
     Route::get('/', [DashboardAdminController::class, 'index'])->name('admin-dashboard');
-    Route::get('category', [AdminCategoryController::class, 'index'])->name('admin-category');
+    Route::resource('category', '\App\Http\Controllers\Admin\CategoryController');
+    Route::resource('user', '\App\Http\Controllers\Admin\UserController');
+    Route::resource('product', '\App\Http\Controllers\Admin\ProductController');
+    Route::resource('product-gallery', '\App\Http\Controllers\Admin\ProductGalleryController');
 });
+
+
+
+
 
 
 Auth::routes();

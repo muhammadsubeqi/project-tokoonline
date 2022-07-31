@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\Admin\AdminCategoryRequest;
+use App\Http\Requests\Admin\UserRequest;
+use Illuminate\Support\Str;
 
 use Yajra\DataTables\Facades\DataTables;
 
-class AdminCategoryController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +22,7 @@ class AdminCategoryController extends Controller
     {
         if(request()->ajax())
         {
-            $query = Category::query();
+            $query = User::query();
 
             return Datatables::of($query)
                 ->addColumn('action', function($item){
@@ -34,10 +35,10 @@ class AdminCategoryController extends Controller
                                             Aksi
                                  </button>
                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="' . route('category-edit', $item->id) .'">
+                                    <a class="dropdown-item" href="' . route('user.edit', $item->id) .'">
                                         Sunting
                                     </a>
-                                    <form action="' . route('category-hapus', $item->id) . '" method="POST">
+                                    <form action="' . route('user.destroy', $item->id) . '" method="POST">
                                         '. method_field('delete') . csrf_field() .'
                                         <button type="submit" class="dropdown-item text-danger">
                                             Hapus    
@@ -48,14 +49,11 @@ class AdminCategoryController extends Controller
                         </div>
                     ';
                 })
-                ->editColumn('photo', function($item){
-                    return $item->photo ? '<img src="'. Storage::url($item->photo) . '" style="max-height: 48px;"/>' : '';
-                })
-                ->rawColumns(['action', 'photo'])
+                ->rawColumns(['action'])
                 ->make();
         }
 
-        return view('pages.admin.category.index');
+        return view('pages.admin.user.index');
     }
 
     /**
@@ -65,7 +63,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.user.create');
     }
 
     /**
@@ -74,9 +72,16 @@ class AdminCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminCategoryRequest $request)
+    public function store(UserRequest $request)
     {
-        //
+        $data = $request->all();
+
+        $data['password'] = bcrypt($request->password);
+       
+        User::create($data);
+
+        return redirect()->route('user.index');
+    
     }
 
     /**
@@ -98,7 +103,9 @@ class AdminCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = User::findOrFail($id);
+
+        return view('pages.admin.user.edit', ['item'=>$item]);
     }
 
     /**
@@ -108,9 +115,20 @@ class AdminCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminCategoryRequest $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $data = $request->all();
+
+        if($request->password){
+            $data['password'] = bcrypt($request->password);
+        }else{
+            unset($data['password']);
+        }
+       
+        $item = User::findOrFail($id);
+        $item->update($data);
+
+        return redirect()->route('user.index');
     }
 
     /**
@@ -121,6 +139,9 @@ class AdminCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = User::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('user.index');
     }
 }

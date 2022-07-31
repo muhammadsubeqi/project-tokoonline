@@ -11,10 +11,11 @@ class Category extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name','photos','slug'
+        'name','photo','slug'
     ];
 
     protected $hidden = [
         
     ];
+    
 }

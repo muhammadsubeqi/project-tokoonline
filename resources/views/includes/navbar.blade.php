@@ -26,17 +26,71 @@
         <li class="nav-item">
             <a href="#" class="nav-link">Rewards</a>
         </li>
-        <li class="nav-item">
-            <a href="/register" class="nav-link">Sign Up</a>
-        </li>
-        <li class="nav-item">
-            <a
-            href="/login"
-            class="btn btn-success nav-link px-4 text-white"
-            >Sign In</a
-            >
-        </li>
+        @guest
+            <li class="nav-item">
+                <a href="{{route('register')}}" class="nav-link">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a
+                href="{{route('login')}}"
+                class="btn btn-success nav-link px-4 text-white"
+                >Sign In</a
+                >
+            </li>
+        @endguest
         </ul>
+        @auth
+            <!-- Destop Menu -->
+            <ul class="navbar-nav d-none d-lg-flex">
+              <li class="nav-item dropdown">
+                <a
+                  href="#"
+                  class="nav-link"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                >
+                  <img
+                    src="/images/icon-user.png"
+                    class="rounded-circle mr-2 profile-picture"
+                    alt=""
+                  />
+                  Hi, {{Auth::user()->name}}
+                </a>
+                <div class="dropdown-menu">
+                  <a href="{{route('dashboard')}}" class="dropdown-item">Dashboard</a>
+                  <a href="{{route('dashboard-settings')}}" class="dropdown-item"
+                    >Settings</a
+                  >
+                <div class="dropdown-divider"></div>
+                    <a href=" {{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        class="dropdown-item">Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
+              </li>
+              <li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link d-inline-block mt-2">
+                    <img src="images/icon-cart-empty.svg" alt="">
+                  </a>
+                </li>
+              </li>
+            </ul>
+            <ul class="navbar-nav d-block d-lg-none">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  Hi, MSubeqi
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link d-inline-block">
+                  Cart
+                </a>
+              </li>
+            </ul>
+        @endauth
     </div>
     </div>
 </nav>
